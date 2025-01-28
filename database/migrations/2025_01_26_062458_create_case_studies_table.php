@@ -12,15 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('case_studies', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->bigInteger('case_number');
             $table->string('title');
             $table->text('detail');
+            $table->string('case_number');
             $table->string('group_id');
             $table->timestamps();
+            $table->unique(['group_id']);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     /**

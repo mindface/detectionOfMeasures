@@ -67,17 +67,16 @@ class TaskController extends Controller
     public function update(Request $request, string $id)
     {
         $task = Task::where('id', $id)->where('user_id', auth()->id())->first();
-        Log::info('-------', ['user_id' => auth()->id()]);
-        Log::info('Request data:', $request->all()); 
+
         if (!$task) {
             return response()->json(['message' => 'Task not found'], 404);
         }
 
-        // $request->validate([
-        //     'title' => 'sometimes|string|max:255',
-        //     'detail' => 'sometimes|string',
-        //     'status' => 'sometimes|string|in:pending,completed,canceled',
-        // ]);
+        $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'detail' => 'sometimes|string',
+            'status' => 'sometimes|string|in:pending,completed,canceled',
+        ]);
 
         $task->update($request->only('title', 'detail', 'status'));
 
